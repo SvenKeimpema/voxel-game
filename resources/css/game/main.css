@@ -1,0 +1,14 @@
+body {
+    margin: 0;
+}
+
+#game_screen {
+    z-index: 0;
+    position: absolute;
+}
+
+#hud {
+    position: absolute;
+    z-index: 100;
+    color: white;
+}

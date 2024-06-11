@@ -1,0 +1,41 @@
+{
+  "resources/css/app.css": {
+    "file": "assets/app-CTRfz3bQ.css",
+    "src": "resources/css/app.css",
+    "isEntry": true
+  },
+  "resources/css/game/main.css": {
+    "file": "assets/main--6PH3HPC.css",
+    "src": "resources/css/game/main.css",
+    "isEntry": true
+  },
+  "resources/css/main.css": {
+    "file": "assets/main-BPWFXXpH.css",
+    "src": "resources/css/main.css",
+    "isEntry": true
+  },
+  "resources/css/server_menu.css": {
+    "file": "assets/server_menu-CJKC3sCH.css",
+    "src": "resources/css/server_menu.css",
+    "isEntry": true
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-Bg1aHGgo.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true
+  },
+  "resources/js/game/main.js": {
+    "file": "assets/main-BcN_OqP5.js",
+    "name": "main",
+    "src": "resources/js/game/main.js",
+    "isEntry": true,
+    "assets": [
+      "assets/Blocks-Cx67lvRh.png"
+    ]
+  },
+  "resources/js/game/textures/Blocks.png": {
+    "file": "assets/Blocks-Cx67lvRh.png",
+    "src": "resources/js/game/textures/Blocks.png"
+  }
+}

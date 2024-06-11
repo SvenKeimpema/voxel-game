@@ -1,0 +1,6 @@
+what do we need to do in laravel only:
+
+1. store the users that are remoted into a game session
+2. add friends list and make it possible to log into a session that the friend is in
+3. be able to add friends
+4. add a shop(idk what is gonna be in it, maybe some stat increases or something)

@@ -1,0 +1,97 @@
+/* Combined styles from css1 and css2 with improvements */
+
+body {
+    margin: 0;
+    display: flex;
+    height: 100vh;
+    background-color: #312e2b;
+    font-family: sans-serif;
+    color: white;
+    justify-content: center;
+    align-items: center;
+}
+
+.server-container {
+    width: 60vw;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #444;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.grid-title {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #fff;
+}
+
+.w3-ul {
+    list-style-type: none;
+    padding: 0;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.server-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+}
+
+.grid-header {
+    background-color: #555;
+    padding: 10px;
+    border-bottom: 2px solid #777;
+}
+
+.w3-ul li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+    border-bottom: 1px solid #777;
+}
+
+.selectable-server:hover {
+    background-color: gray;
+}
+
+.selectable-server:active {
+    background-color: gray;
+    color: white;
+}
+
+.server-name {
+    font-size: 16px;
+}
+
+.server-players {
+    font-size: 14px;
+    color: #ccc;
+}
+
+.server-container input[type="submit"] {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.2s ease-in-out;
+    display: block;
+    width: 100%;
+}
+
+.server-container input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+.list {
+    max-height: 200px;
+    overflow-y: auto;
+}
