@@ -10,7 +10,7 @@ export default defineConfig({
                 'resources/css/server_menu.css',
                 'resources/css/game/main.css',
                 'resources/js/app.js',
-                'resources/js/game/main.js'
+                'resources/js/js_voxel_game/main.js'
             ],
             refresh: true,
         }),

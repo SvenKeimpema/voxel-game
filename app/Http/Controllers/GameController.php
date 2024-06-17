@@ -2,6 +2,7 @@
 
     namespace App\Http\Controllers;
 
+    use App\Events\PlayerAddedEvent;
     use Illuminate\Http\Request;
     use App\Http\Controllers\Controller;
     use Illuminate\Support\Facades\Auth;
@@ -11,6 +12,7 @@
     class GameController extends Controller
     {
         /**
+         * MAIN GAME
          * @throws ValidationException
          */
         public function play() {
@@ -19,13 +21,14 @@
                     "uuid" => null,
                 ]);
             }
-            $user_name = "";
-            if(Auth::check()) {
 
-            }else {
+            $server_uuid = Session::get('game_code');
 
-            }
+            broadcast(new PlayerAddedEvent($server_uuid))->toOthers();
 
-            return Session::get('game_code');
+            return view("game",
+                [
+                    "uuid" => $server_uuid
+                ]);
         }
     }

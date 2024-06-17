@@ -44,14 +44,16 @@ export default class World {
         this.biome = new DefaultBiome();
 
         this.seed = Math.random()*100000;
-        this.noise = new Noise(World.seed);
+        this.noise = new Noise(this.seed);
     }
 
     CheckVoxel(x, y, z) {
         if(!this.IsBlockInWorld(x, z))
             return false;
+        if(y < 0) {
+            return false;
+        }
 
-        
         // create a int out of the player position;
         let xPos = Math.floor(x);
         let yPos = Math.floor(y);
@@ -67,36 +69,47 @@ export default class World {
 
         if(yPos >= VoxelData.chunkHeight)
             return false;
+        try {
+            return World.blocktypes[this.chunks[(xChunk*VoxelData.worldSizeInChunks)+zChunk].blockMap[xPos][yPos][zPos]].is_solid;
+        }catch (e) {
+            console.log("[ERROR] failed to get block");
+            console.log("chunk_pos: ", (xChunk*VoxelData.worldSizeInChunks)+zChunk);
+            console.log("block_pos: ", [xPos, yPos, zPos]);
+            console.log("chunks: ", this.chunks);
+            console.log("blocks: ", this.chunks[(xChunk*VoxelData.worldSizeInChunks)+zChunk].blockMap)
+        }
+    }
 
-        return World.blocktypes[this.chunks[(xChunk*VoxelData.worldSizeInChunks)+zChunk].blockMap[xPos][yPos][zPos]].is_solid;
+    checkVoxel2() {
+
     }
 
     /**
-     * 
+     *
      * @param {THREE.Vector3} pos
      */
     GetVoxel(pos) {
         let yFloor = Math.floor(pos.y);
-        
-        if(yFloor == 0)
+
+        if(yFloor === 0)
             return 1;
 
         let terrainHeight = Math.floor(this.noise.get2DPerlinNoise(new THREE.Vector2(pos.x, pos.z), 500, this.biome.scale) * this.biome.max_height);
         terrainHeight = Math.max(terrainHeight, this.biome.min_height);
         let voxelValue = 0;
 
-        if(yFloor == terrainHeight)
+        if(yFloor === terrainHeight)
             voxelValue = 3;
-        else if(yFloor < terrainHeight && yFloor > terrainHeight - 4) 
+        else if(yFloor < terrainHeight && yFloor > terrainHeight - 4)
             voxelValue = 4;
         else if(yFloor > terrainHeight)
             return 0;
         else
-            voxelValue = 1;
+            voxelValue = 2;
 
         if (voxelValue === 1) {
             this.biome.layers.forEach((layer) => {
-                if(yFloor > layer.min_height && yFloor < layer.max_height) 
+                if(yFloor > layer.min_height && yFloor < layer.max_height)
                     if(this.noise.get3DPerlinNoise(pos, layer.offset, layer.scale, layer.threshold))
                         voxelValue = layer.block_id;
             })
@@ -147,7 +160,7 @@ export default class World {
 
     generateWorld() {
         for(let x = (VoxelData.worldSizeInChunks / 2) - VoxelData.viewDistanceInChunks; x < (VoxelData.worldSizeInChunks / 2) + VoxelData.viewDistanceInChunks; x++) {
-            for(let z = (VoxelData.worldSizeInChunks / 2) - VoxelData.viewDistanceInChunks; z < (VoxelData.worldSizeInChunks / 2) + VoxelData.viewDistanceInChunks; z++) {                   
+            for(let z = (VoxelData.worldSizeInChunks / 2) - VoxelData.viewDistanceInChunks; z < (VoxelData.worldSizeInChunks / 2) + VoxelData.viewDistanceInChunks; z++) {
                 if(this.IsChunkInWorld(x, z)) {
                     this._createChunk(x, z);
                 }

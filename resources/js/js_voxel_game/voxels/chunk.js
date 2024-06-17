@@ -7,7 +7,7 @@ import World from './world';
 export default class Chunk {
 
     /**
-     * 
+     *
      * @param {THREE.Vector3} coord coordinate of where the chunk should be placed
      */
     constructor(world, coord) {
@@ -40,7 +40,7 @@ export default class Chunk {
         texture.wrapT = THREE.ClampToEdgeWrapping;
 
         geometry.setIndex(this.triangles);
-        geometry.setAttribute('position', new THREE.BufferAttribute( new Float32Array(this.vertices), 3 ) ); 
+        geometry.setAttribute('position', new THREE.BufferAttribute( new Float32Array(this.vertices), 3 ) );
         geometry.setAttribute('uv', new THREE.BufferAttribute( new Float32Array(this.uvs), 2 ) );
         geometry.computeVertexNormals();
         const material = new THREE.MeshBasicMaterial({map: texture});
@@ -56,7 +56,7 @@ export default class Chunk {
                 for(let z = 0; z < VoxelData.chunkWidth; z++) {
                     let xCoord = this.position.x + x;
                     let zCoord = this.position.z + z;
-                    
+
                     map[x][y][z] = this.world.GetVoxel(new THREE.Vector3(xCoord, y, zCoord));
                 }
             }
@@ -94,17 +94,12 @@ export default class Chunk {
                 }
             }
         }
-    }    
-
-    _addVertex(triangleIndex, pos) {
-        this.vertices.push(this.voxelData.getVertices()[triangleIndex*3] + pos.x + (this.coord.x * VoxelData.chunkWidth));
-        this.vertices.push(this.voxelData.getVertices()[triangleIndex*3+1] + pos.y);
-        this.vertices.push(this.voxelData.getVertices()[triangleIndex*3+2] + pos.z + (this.coord.z * VoxelData.chunkWidth));
     }
 
-    _addUv(uvIndex) {
-        this.uvs.push(this.voxelData.getUvs()[uvIndex*2]);
-        this.uvs.push(this.voxelData.getUvs()[uvIndex*2+1]);
+    _addVertex(triangleIndex, pos) {
+        this.vertices.push(this.voxelData.vertices[triangleIndex*3] + pos.x + (this.coord.x * VoxelData.chunkWidth));
+        this.vertices.push(this.voxelData.vertices[triangleIndex*3+1] + pos.y);
+        this.vertices.push(this.voxelData.vertices[triangleIndex*3+2] + pos.z + (this.coord.z * VoxelData.chunkWidth));
     }
 
     _addUvTexture(xNormTexture, yNormTexture) {
@@ -119,7 +114,7 @@ export default class Chunk {
             if(this._invalidVoxel(MathUtils.addVector3(pos, this.voxelData.faceChecks[p]))) continue;
 
             let voxelTriangles = voxelData.getTriangles();
-            
+
             let block_id = this.blockMap[pos.x][pos.y][pos.z];
 
             this._addVertex(voxelTriangles[p][0], pos);
@@ -137,7 +132,7 @@ export default class Chunk {
             this.triangles.push(this.vertexIndex+3);
 
             this.vertexIndex += 4;
-            
+
         }
     }
 

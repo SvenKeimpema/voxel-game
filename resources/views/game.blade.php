@@ -2,14 +2,18 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>My first three.js app</title>
-{{--NEEDS TO BE LINKED WITH VITE!!!--}}
-    @vite(["resources/css/game/main.css", "resources/js/game/main.js"])
+    <title>Voxel Game</title>
+{{-- we want to load the echo server first, this will allow us to communicate with js->php and php->js --}}
+    @vite(["resources/js/echo.js"])
+{{-- Link the game css and js using vite--}}
+    @vite(["resources/css/game/main.css", "resources/js/js_voxel_game/main.js"])
 </head>
 <body>
 <canvas id="game_screen"></canvas>
 <div id="hud">
-    <a>Hello!</a>
+    <a id="fps"></a><br>
+    <a id="pos"></a>
 </div>
+<p id="world_uuid" hidden>{{$uuid}}</p>
 </body>
 </html>
