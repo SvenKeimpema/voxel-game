@@ -1,4 +1,8 @@
 {
+  "_axios-B4uVmeYG.js": {
+    "file": "assets/axios-B4uVmeYG.js",
+    "name": "axios"
+  },
   "resources/css/app.css": {
     "file": "assets/app-CTRfz3bQ.css",
     "src": "resources/css/app.css",
@@ -20,22 +24,28 @@
     "isEntry": true
   },
   "resources/js/app.js": {
-    "file": "assets/app-CsMsp2LZ.js",
+    "file": "assets/app-Bbt0dJKG.js",
     "name": "app",
     "src": "resources/js/app.js",
-    "isEntry": true
-  },
-  "resources/js/js_voxel_game/main.js": {
-    "file": "assets/main-DaLjDSMJ.js",
-    "name": "main",
-    "src": "resources/js/js_voxel_game/main.js",
     "isEntry": true,
+    "imports": [
+      "_axios-B4uVmeYG.js"
+    ]
+  },
+  "resources/js/voxel_game/main.js": {
+    "file": "assets/main-Bgn0qgvA.js",
+    "name": "main",
+    "src": "resources/js/voxel_game/main.js",
+    "isEntry": true,
+    "imports": [
+      "_axios-B4uVmeYG.js"
+    ],
     "assets": [
       "assets/Blocks-Cx67lvRh.png"
     ]
   },
-  "resources/js/js_voxel_game/textures/Blocks.png": {
+  "resources/js/voxel_game/textures/Blocks.png": {
     "file": "assets/Blocks-Cx67lvRh.png",
-    "src": "resources/js/js_voxel_game/textures/Blocks.png"
+    "src": "resources/js/voxel_game/textures/Blocks.png"
   }
 }

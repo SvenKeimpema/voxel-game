@@ -6,7 +6,7 @@
 {{-- we want to load the echo server first, this will allow us to communicate with js->php and php->js --}}
     @vite(["resources/js/echo.js"])
 {{-- Link the game css and js using vite--}}
-    @vite(["resources/css/game/main.css", "resources/js/js_voxel_game/main.js"])
+    @vite(["resources/css/game/main.css", "resources/js/voxel_game/main.js"])
 </head>
 <body>
 <canvas id="game_screen"></canvas>

@@ -51,7 +51,7 @@ export default class World {
         if(!this.IsBlockInWorld(x, z))
             return false;
         if(y < 0) {
-            return false;
+            return true;
         }
 
         // create a int out of the player position;

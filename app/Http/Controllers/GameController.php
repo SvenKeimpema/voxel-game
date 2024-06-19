@@ -2,7 +2,6 @@
 
     namespace App\Http\Controllers;
 
-    use App\Events\PlayerAddedEvent;
     use Illuminate\Http\Request;
     use App\Http\Controllers\Controller;
     use Illuminate\Support\Facades\Auth;
@@ -23,8 +22,6 @@
             }
 
             $server_uuid = Session::get('game_code');
-
-            broadcast(new PlayerAddedEvent($server_uuid))->toOthers();
 
             return view("game",
                 [

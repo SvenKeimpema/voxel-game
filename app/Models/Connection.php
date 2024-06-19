@@ -9,5 +9,5 @@
     {
         use HasFactory;
 
-        protected $fillable = ['world_uuid', 'user_id'];
+        protected $fillable = ['world_uuid', 'user_id', 'updated_at'];
     }

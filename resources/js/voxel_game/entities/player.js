@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import InputController from '../helpers/controller.js';
 import VoxelData from '../voxels/data.js'
 import World from '../voxels/world.js';
+import {Server} from "../server.js";
 
 class ThridPersonCamera {
     constructor(camera) {
@@ -90,6 +91,7 @@ export default class Player extends ThridPersonCamera {
         this.vertical_momentum = 0;
         this.jump_force = 1;
         this.canvas = canvas;
+        // this.movement_worker = new MovementWorker();
         this.lock_mouse();
     }
 
@@ -116,9 +118,9 @@ export default class Player extends ThridPersonCamera {
         if(this.vertical_momentum > this.gravity)
             this.vertical_momentum += deltaTime * this.gravity;
 
-        // if(this.position.y-Math.floor(this.position.y) < 0.05) {
-        //     this.position.y = Math.floor(this.position.y);
-        // }
+        if(this.position.y-Math.floor(this.position.y) < 0.05) {
+            this.position.y = Math.floor(this.position.y);
+        }
 
         this.velocity = this._getTranslation(fowardVel, this.vertical_momentum, strafeVel, deltaTime);
         this.velocity.x *= this.movement_speed;

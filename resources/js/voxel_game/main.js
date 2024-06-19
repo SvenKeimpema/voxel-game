@@ -8,5 +8,5 @@ function main() {
     let game_handler = new Game(scene, canvas);
     game_handler.start();
 }
-let server = new Server();
+
 main();

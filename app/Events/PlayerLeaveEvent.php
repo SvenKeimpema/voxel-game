@@ -11,7 +11,7 @@
     use Illuminate\Queue\SerializesModels;
     use Illuminate\Support\Facades\Auth;
 
-    class PlayerAddedEvent implements ShouldBroadcast
+    class PlayerLeaveEvent implements ShouldBroadcast
     {
         use Dispatchable, InteractsWithSockets, SerializesModels;
         public string $server_uuid;
@@ -27,7 +27,7 @@
 
         public function broadcastAs(): string
         {
-            return "PlayerAddedEvent";
+            return "PlayerLeaveEvent";
         }
 
         /**
