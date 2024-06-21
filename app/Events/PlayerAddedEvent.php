@@ -25,6 +25,17 @@
             $this->dontBroadcastToCurrentUser();
         }
 
+        public function broadcastWith(): array
+        {
+            $arr = [];
+
+            for($i = 0; $i < 100; $i++) {
+                $arr[$i] = rand(0, 100000);
+            }
+
+            return $arr;
+        }
+
         public function broadcastAs(): string
         {
             return "PlayerAddedEvent";

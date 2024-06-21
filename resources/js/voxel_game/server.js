@@ -4,6 +4,7 @@ export class Server {
     constructor() {
         this.uuid = document.getElementById("world_uuid").innerHTML;
         window.Echo.private(`world.${this.uuid}`).listen('.PlayerAddedEvent', function (e, data) {
+            console.log(e, data);
         })
 
         window.Echo.private(`world.${this.uuid}`).listen('.PlayerMovedEvent', function (e, data) {
