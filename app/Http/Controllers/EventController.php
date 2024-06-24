@@ -14,8 +14,6 @@
         static array $events = [
             "PlayerAddedEvent" => PlayerAddedEvent::class,
             "PlayerLeaveEvent" => PlayerLeaveEvent::class,
-            "UpdatePosition" => UpdateMovementEvent::class,
-            "UpdateVelocity" => UpdateMovementEvent::class,
         ];
 
         public function get_event(Request $request)

@@ -35,6 +35,24 @@
             return count($server) != 0;
         }
 
+        public function connection_exists(int $auth_id)
+        {
+            $conns = Connection::where("user_id", $auth_id)->get();
+            return count($conns) != 0;
+        }
+
+        public function remove_connection(int $auth_id) {
+            Connection::where("user_id", $auth_id)->delete();
+        }
+
+        public function setup_connection($auth_id, $uuid)
+        {
+            if($this->connection_exists($auth_id))
+                $this->remove_connection($auth_id);
+
+            $this->create_connection($uuid, $auth_id);
+        }
+
         public function create_private_server(Request $request) {
             $create_data = [];
 
@@ -48,7 +66,7 @@
             $create_data['created_by'] = Auth::id();
 
             Server::create($create_data);
-            $this->create_connection($create_data['uuid'], $create_data['created_by']);
+            $this->setup_connection($create_data['created_by'], $create_data['uuid']);
 
             session(["game_code" => $create_data['uuid']]);
 
@@ -65,13 +83,17 @@
                 redirect(route('join_private_server_form'));
 
             session(["game_code" => $data['server_code']]);
-            $this->create_connection($data['server_code'], Auth::id());
+            $this->setup_connection($data['server_code'], Auth::id());
 
             return redirect(route('play_game'));
         }
 
-        // TODO: remove from class whenever memorized
-        public function test() {
-            return view("hello", ['index'=>1]);
+        /**
+         * whenever user pings the server we want to make sure the connection stays alive
+         * @param Request $request
+         * @return void
+         */
+        public function ping(Request $request) {
+            EventController::class->update_connection();
         }
     }

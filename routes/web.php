@@ -27,4 +27,7 @@ Route::middleware('auth')->group(function () {
 Route::post('/call_event', [EventController::class, 'call'])->name('call_event');
 Route::post('/call_event_other', [EventController::class, 'call_other'])->name('call_event_other');
 
+// ping server route
+Route::post('/ping', [ServerController::class, 'ping'])->name('ping');
+
 require __DIR__.'/auth.php';

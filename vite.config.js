@@ -20,8 +20,9 @@ export default defineConfig({
         exclude: ["midsommer"],
     },
     server: {
-        fs: {
-            strict: false
+        host: "localhost",
+        hmr: {
+          host: 'localhost'
         }
-    }
+    },
 });

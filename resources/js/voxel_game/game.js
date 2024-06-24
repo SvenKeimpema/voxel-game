@@ -43,6 +43,7 @@ export class Game {
         this.player.update_player_movement(this.timer.getDelta());
 
         if(this.tick_amount > 10) {
+            this.server.call_url("/ping");
             this.server.whisper("UpdatePosition", {...this.player.position});
             this.tick_amount = 0;
         }else if((deltaTime - this.last_tick) > 150 && !MathUtils.vector3_eq(this.last_vel, this.player.velocity)) {
