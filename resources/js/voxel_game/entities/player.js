@@ -213,7 +213,11 @@ export default class Player extends ThridPersonCamera {
      */
     block_front() {
         return this.world.CheckVoxel(this.position.x, this.position.y-1, this.position.z+this.width+this.velocity.z) ||
-               this.world.CheckVoxel(this.position.x, this.position.y-2, this.position.z+this.width+this.velocity.z);
+               this.world.CheckVoxel(this.position.x, this.position.y-2, this.position.z+this.width+this.velocity.z) ||
+               this.world.CheckVoxel(this.position.x+this.width, this.position.y-1, this.position.z+this.width+this.velocity.z) ||
+               this.world.CheckVoxel(this.position.x+this.width, this.position.y-2, this.position.z+this.width+this.velocity.z) ||
+               this.world.CheckVoxel(this.position.x-this.width, this.position.y-1, this.position.z+this.width+this.velocity.z) ||
+               this.world.CheckVoxel(this.position.x-this.width, this.position.y-2, this.position.z+this.width+this.velocity.z);
     }
 
     /**
@@ -224,7 +228,11 @@ export default class Player extends ThridPersonCamera {
      */
     block_back() {
         return this.world.CheckVoxel(this.position.x, this.position.y-1, this.position.z-this.width+this.velocity.z) ||
-               this.world.CheckVoxel(this.position.x, this.position.y-2, this.position.z-this.width+this.velocity.z);
+               this.world.CheckVoxel(this.position.x, this.position.y-2, this.position.z-this.width+this.velocity.z) ||
+               this.world.CheckVoxel(this.position.x+this.width, this.position.y-1, this.position.z-this.width+this.velocity.z) ||
+               this.world.CheckVoxel(this.position.x+this.width, this.position.y-2, this.position.z-this.width+this.velocity.z) ||
+               this.world.CheckVoxel(this.position.x-this.width, this.position.y-1, this.position.z-this.width+this.velocity.z) ||
+               this.world.CheckVoxel(this.position.x-this.width, this.position.y-2, this.position.z-this.width+this.velocity.z);
     }
 
     /**
@@ -235,7 +243,11 @@ export default class Player extends ThridPersonCamera {
      */
     block_left() {
         return this.world.CheckVoxel(this.position.x-this.width+this.velocity.x, this.position.y-1, this.position.z) ||
-               this.world.CheckVoxel(this.position.x-this.width+this.velocity.x, this.position.y-2, this.position.z);
+               this.world.CheckVoxel(this.position.x-this.width+this.velocity.x, this.position.y-2, this.position.z) ||
+               this.world.CheckVoxel(this.position.x-this.width+this.velocity.x, this.position.y-1, this.position.z+this.width) ||
+               this.world.CheckVoxel(this.position.x-this.width+this.velocity.x, this.position.y-2, this.position.z+this.width) ||
+               this.world.CheckVoxel(this.position.x-this.width+this.velocity.x, this.position.y-1, this.position.z-this.width) ||
+               this.world.CheckVoxel(this.position.x-this.width+this.velocity.x, this.position.y-2, this.position.z-this.width);
     }
 
     /**
@@ -246,6 +258,10 @@ export default class Player extends ThridPersonCamera {
      */
     block_right() {
         return this.world.CheckVoxel(this.position.x+this.width+this.velocity.x, this.position.y-1, this.position.z) ||
-               this.world.CheckVoxel(this.position.x+this.width+this.velocity.x, this.position.y-2, this.position.z);
+               this.world.CheckVoxel(this.position.x+this.width+this.velocity.x, this.position.y-2, this.position.z) ||
+               this.world.CheckVoxel(this.position.x+this.width+this.velocity.x, this.position.y-1, this.position.z+this.width) ||
+               this.world.CheckVoxel(this.position.x+this.width+this.velocity.x, this.position.y-2, this.position.z+this.width) ||
+               this.world.CheckVoxel(this.position.x+this.width+this.velocity.x, this.position.y-1, this.position.z-this.width) ||
+               this.world.CheckVoxel(this.position.x+this.width+this.velocity.x, this.position.y-2, this.position.z-this.width);
     }
 }
