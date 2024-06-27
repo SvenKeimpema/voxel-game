@@ -3,10 +3,7 @@ import axios from 'axios'
 export class Server {
     constructor() {
         this.uuid = document.getElementById("world_uuid").innerHTML;
-        window.Echo.private(`world.${this.uuid}`).listen('.PlayerAddedEvent', function (e, data) {
-            console.log(e, data);
-        })
-
+        this.channel = window.Echo.private(`world.${this.uuid}`)
         window.Echo.private(`world.${this.uuid}`).listen('.PlayerMovedEvent', function (e, data) {
         })
         window.Echo.private(`world.${this.uuid}`).listenToAll((event, data) => {
@@ -26,24 +23,20 @@ export class Server {
         axios.post(url, kwargs).then(r => {});
     }
 
-    call(event, kwargs={}) {
-        kwargs["event"] = event;
-        kwargs["X-Socket-ID"] = window.Echo.socketId();
-        kwargs["server_uuid"] = this.uuid;
-        axios.post('/call_event', kwargs).then(r => {});
-    }
-
-    call_other(event, kwargs={}) {
-        kwargs["event"] = event;
-        kwargs["X-Socket-ID"] = window.Echo.socketId();
-        kwargs["server_uuid"] = this.uuid;
-        axios.post('/call_event_other', kwargs).then(r => {})
-    }
-
     whisper(event, kwargs={}) {
         kwargs["event"] = event;
         kwargs["X-Socket-ID"] = window.Echo.socketId();
         kwargs["server_uuid"] = this.uuid;
         window.Echo.private(`world.${this.uuid}`).whisper('test', kwargs)
+    }
+
+    /**
+     * given function will be called whenever the given event is called.
+     * this is basically a hook function.
+     * @param event
+     * @param func
+     */
+    listenForWhisper(event, func) {
+        this.channel.listen(event, func);
     }
 }
