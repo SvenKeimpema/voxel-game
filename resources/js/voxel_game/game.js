@@ -5,20 +5,30 @@ import World from "./voxels/world.js";
 import {Server} from "./server.js";
 import {Vector3} from "three";
 import MathUtils from "./helpers/math.js";
+import Entity from "./entities/entity.js";
+import {v4 as uuidv4} from 'uuid';
 
 export class Game {
+
+    static entities = {};
+    static scene = null;
+
     constructor(scene, canvas) {
+        this.server = new Server();
+
+        Game.scene = scene;
         this.scene = scene;
+
         this.renderer = new GameRenderer(canvas);
         this.timer = new Timer();
         this.world = new World(this.scene);
+
         this.player = new Player(this.world, canvas);
-        this.server = new Server();
 
         this.last_tick = -1;
         this.last_vel = new Vector3(0, 0, 0);
         this.tick_amount = 0;
-
+        this.entity_uuid = uuidv4();
         this.prev_delta = -1;
         this.fps = 0;
         this.setup();
@@ -26,6 +36,31 @@ export class Game {
 
     setup() {
         this.world.generateWorld();
+        this.create_hooks();
+    }
+
+    eventValid(e_uuid) {
+        return this.entity_uuid === e_uuid;
+    }
+
+    createEntity(data) {
+        Game.entities[data['e-uuid']] = new Entity(Game.scene, data["position"]);
+    }
+
+    updateEntityPosition(data) {
+        if(!this.eventValid(data['e-uuid']))
+            Game.entities[data['e-uuid']].updatePosition(data["position"])
+    }
+
+    create_hooks() {
+        this.server.listenForWhisper("PlayerAddedEvent", this.createEntity.bind(this));
+        this.server.listenForWhisper("UpdatePosition", this.updateEntityPosition.bind(this));
+        setTimeout(() =>
+            this.server.whisper(
+                "PlayerAddedEvent",
+                {"position": this.player.position, "e-uuid": this.entity_uuid
+                }),
+        1000);
     }
 
     /**
@@ -36,18 +71,13 @@ export class Game {
         this.onUpdate();
     }
 
-    onUpdate(deltaTime) {
-        requestAnimationFrame(this.onUpdate.bind(this));
-        this.timer.update(deltaTime);
-
-        this.player.update_player_movement(this.timer.getDelta());
-
+    updateServer(deltaTime) {
         if(this.tick_amount > 10) {
             this.server.call_url("/ping");
-            this.server.whisper("UpdatePosition", {...this.player.position});
+            this.server.whisper("UpdatePosition", {...this.player.position, "e-uuid": this.entity_uuid});
             this.tick_amount = 0;
         }else if((deltaTime - this.last_tick) > 150 && !MathUtils.vector3_eq(this.last_vel, this.player.velocity)) {
-            this.server.whisper("UpdateVelocity", {...this.player.velocity});
+            this.server.whisper("UpdateVelocity", {...this.player.velocity, "e-uuid": this.entity_uuid});
             this.tick_amount += 1;
             this.last_tick = deltaTime;
             this.last_vel = this.player.velocity;
@@ -55,7 +85,14 @@ export class Game {
             this.tick_amount += 1;
             this.last_tick = deltaTime;
         }
+    }
 
+    onUpdate(deltaTime) {
+        requestAnimationFrame(this.onUpdate.bind(this));
+
+        this.timer.update(deltaTime);
+        this.player.update_player_movement(this.timer.getDelta());
+        this.updateServer(deltaTime);
         this.world.checkViewDistance(this.player.position);
 
         // TODO: move or remove debug

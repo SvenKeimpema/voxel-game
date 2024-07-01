@@ -47,6 +47,8 @@
 
         public function setup_connection($auth_id, $uuid)
         {
+            info("id:");
+            info($auth_id);
             if($this->connection_exists($auth_id))
                 $this->remove_connection($auth_id);
 
@@ -83,7 +85,7 @@
                 redirect(route('join_private_server_form'));
 
             session(["game_code" => $data['server_code']]);
-            $this->setup_connection($data['server_code'], Auth::id());
+            $this->setup_connection(Auth::id(), $data['server_code']);
 
             return redirect(route('play_game'));
         }
@@ -94,6 +96,6 @@
          * @return void
          */
         public function ping(Request $request) {
-            EventController::class->update_connection();
+            EventController::update_connection();
         }
     }

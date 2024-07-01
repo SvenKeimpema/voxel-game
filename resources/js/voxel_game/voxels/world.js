@@ -80,10 +80,6 @@ export default class World {
         }
     }
 
-    checkVoxel2() {
-
-    }
-
     /**
      *
      * @param {THREE.Vector3} pos

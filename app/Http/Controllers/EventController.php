@@ -27,7 +27,7 @@
             return EventController::$events[$event];
         }
 
-        public function update_connection()
+        public static function update_connection()
         {
             // update auth id to the same so laravel updates the time stamp for use(little hack)
             Connection::where("user_id", Auth::id())->update(["user_id" => Auth::id()]);
