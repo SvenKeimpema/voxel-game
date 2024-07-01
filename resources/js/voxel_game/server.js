@@ -1,34 +1,41 @@
 import axios from 'axios'
+import {EventManager} from "./events/EventManager.js";
+
+const uuid = document.getElementById("world_uuid").innerHTML;
+const channel = window.Echo.private(`world.${uuid}`);
 
 export class Server {
-    constructor() {
-        this.uuid = document.getElementById("world_uuid").innerHTML;
-        this.channel = window.Echo.private(`world.${this.uuid}`);
+    constructor(game) {
 
-        this.events = {};
-        // not sure why but we need to set a TimeOut here before calling this event, else it won't be received?
+
+        this.event_manager = new EventManager(game);
+        this.game = game;
+
+        setTimeout(() =>
+            this.whisper(
+                "PlayerAddedEvent",
+                {"position": this.game.player.position, "e-uuid": this.game.entity_uuid
+                }),
+        1000);
+
+        this.listenForWhisperEvents();
     }
 
     call_url(url, kwargs={}) {
-        kwargs["X-Socket-ID"] = window.Echo.socketId();
         kwargs["server_uuid"] = this.uuid;
         axios.post(url, kwargs).then(r => {});
     }
 
-    whisper(event, kwargs={}) {
-        kwargs["event"] = event;
-        kwargs["X-Socket-ID"] = window.Echo.socketId();
+    static whisper(event, kwargs={}) {
         kwargs["server_uuid"] = this.uuid;
-        this.channel.whisper(event, kwargs)
+        channel.whisper(event, kwargs)
     }
 
     /**
      * given function will be called whenever the given event is called.
      * this is basically a hook function.
-     * @param event
-     * @param func
      */
-    listenForWhisper(event, func) {
-        this.channel.listenForWhisper(event, func);
+    listenForWhisperEvents() {
+        channel.listenToAll((event, data) => this.event_manager.call(event, data));
     }
 }

@@ -14,8 +14,6 @@ export class Game {
     static scene = null;
 
     constructor(scene, canvas) {
-        this.server = new Server();
-
         Game.scene = scene;
         this.scene = scene;
 
@@ -32,35 +30,12 @@ export class Game {
         this.prev_delta = -1;
         this.fps = 0;
         this.setup();
+
+        this.server = new Server(this);
     }
 
     setup() {
         this.world.generateWorld();
-        this.create_hooks();
-    }
-
-    eventValid(e_uuid) {
-        return this.entity_uuid === e_uuid;
-    }
-
-    createEntity(data) {
-        Game.entities[data['e-uuid']] = new Entity(Game.scene, data["position"]);
-    }
-
-    updateEntityPosition(data) {
-        if(!this.eventValid(data['e-uuid']))
-            Game.entities[data['e-uuid']].updatePosition(data["position"])
-    }
-
-    create_hooks() {
-        this.server.listenForWhisper("PlayerAddedEvent", this.createEntity.bind(this));
-        this.server.listenForWhisper("UpdatePosition", this.updateEntityPosition.bind(this));
-        setTimeout(() =>
-            this.server.whisper(
-                "PlayerAddedEvent",
-                {"position": this.player.position, "e-uuid": this.entity_uuid
-                }),
-        1000);
     }
 
     /**
