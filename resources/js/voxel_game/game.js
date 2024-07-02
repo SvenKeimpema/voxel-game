@@ -10,7 +10,6 @@ import {v4 as uuidv4} from 'uuid';
 
 export class Game {
 
-    static entities = {};
     static scene = null;
 
     constructor(scene, canvas) {
@@ -23,15 +22,13 @@ export class Game {
 
         this.player = new Player(this.world, canvas);
 
-        this.last_tick = -1;
-        this.last_vel = new Vector3(0, 0, 0);
-        this.tick_amount = 0;
         this.entity_uuid = uuidv4();
         this.prev_delta = -1;
         this.fps = 0;
         this.setup();
 
         this.server = new Server(this);
+        this.entities = {}
     }
 
     setup() {
@@ -46,28 +43,11 @@ export class Game {
         this.onUpdate();
     }
 
-    updateServer(deltaTime) {
-        if(this.tick_amount > 10) {
-            this.server.call_url("/ping");
-            this.server.whisper("UpdatePosition", {...this.player.position, "e-uuid": this.entity_uuid});
-            this.tick_amount = 0;
-        }else if((deltaTime - this.last_tick) > 150 && !MathUtils.vector3_eq(this.last_vel, this.player.velocity)) {
-            this.server.whisper("UpdateVelocity", {...this.player.velocity, "e-uuid": this.entity_uuid});
-            this.tick_amount += 1;
-            this.last_tick = deltaTime;
-            this.last_vel = this.player.velocity;
-        }else if((deltaTime - this.last_tick) > 150) {
-            this.tick_amount += 1;
-            this.last_tick = deltaTime;
-        }
-    }
-
     onUpdate(deltaTime) {
         requestAnimationFrame(this.onUpdate.bind(this));
 
         this.timer.update(deltaTime);
         this.player.update_player_movement(this.timer.getDelta());
-        this.updateServer(deltaTime);
         this.world.checkViewDistance(this.player.position);
 
         // TODO: move or remove debug

@@ -1,5 +1,7 @@
 
 import {Game} from '../game.js';
+import PlayerAddedEvent from "./PlayerAddedEvent.js";
+import PlayerMovedEvent from "./PlayerMovedEvent.js";
 
 export class EventManager {
     /**
@@ -14,16 +16,17 @@ export class EventManager {
     }
 
     register_default_hooks() {
-        this.register("PlayerAddedEvent", this.game.createEntity);
+        this.register("PlayerAddedEvent", PlayerAddedEvent);
+        this.register("PlayerMovedEvent", PlayerMovedEvent);
     }
 
     register(event, callback) {
-        callback.bind(this.game);
         this.events[".client-" + event] = callback;
     }
 
     call(event, event_data) {
-        this.events[event].run(this.game, event_data);
+        const cls = new this.events[event]();
+        cls.run(this.game, event_data);
     }
 }
 

@@ -13,3 +13,4 @@ window.Echo = new Echo({
     enable_client_messages: true,
     enabledTransports: ['ws', 'wss'],
 });
+

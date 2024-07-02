@@ -4,6 +4,7 @@
     use App\Http\Controllers\GameController;
     use App\Http\Controllers\ProfileController;
     use App\Http\Controllers\ServerController;
+    use App\Http\Controllers\WorldController;
     use Illuminate\Support\Facades\Route;
 
 // home
@@ -29,5 +30,6 @@ Route::post('/call_event_other', [EventController::class, 'call_other'])->name('
 
 // ping server route
 Route::post('/ping', [ServerController::class, 'ping'])->name('ping');
+Route::post('/get_seed', [WorldController::class, 'get_seed'])->name('seed');
 
 require __DIR__.'/auth.php';

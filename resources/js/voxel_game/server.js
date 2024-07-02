@@ -5,17 +5,17 @@ const uuid = document.getElementById("world_uuid").innerHTML;
 const channel = window.Echo.private(`world.${uuid}`);
 
 export class Server {
+    static entity_uuid = null;
+
     constructor(game) {
-
-
         this.event_manager = new EventManager(game);
         this.game = game;
+        Server.entity_uuid = this.game.entity_uuid;
 
         setTimeout(() =>
-            this.whisper(
+            Server.whisper(
                 "PlayerAddedEvent",
-                {"position": this.game.player.position, "e-uuid": this.game.entity_uuid
-                }),
+                {"position": this.game.player.position}),
         1000);
 
         this.listenForWhisperEvents();
@@ -28,6 +28,7 @@ export class Server {
 
     static whisper(event, kwargs={}) {
         kwargs["server_uuid"] = this.uuid;
+        kwargs["e-uuid"] = Server.entity_uuid;
         channel.whisper(event, kwargs)
     }
 
@@ -36,6 +37,7 @@ export class Server {
      * this is basically a hook function.
      */
     listenForWhisperEvents() {
-        channel.listenToAll((event, data) => this.event_manager.call(event, data));
+        const callback = this.event_manager.call.bind(this.event_manager);
+        channel.listenToAll((event, data) => callback(event, data));
     }
 }

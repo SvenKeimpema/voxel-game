@@ -3,6 +3,8 @@ import InputController from '../helpers/controller.js';
 import VoxelData from '../voxels/data.js'
 import World from '../voxels/world.js';
 import {Server} from "../server.js";
+import {GameEvent} from "../events/Event.js";
+import {Game} from "../game.js";
 
 class ThridPersonCamera {
     constructor(camera) {
@@ -12,9 +14,14 @@ class ThridPersonCamera {
         this.position = new THREE.Vector3((VoxelData.worldSizeInChunks*VoxelData.chunkWidth)/2, VoxelData.chunkHeight+2, (VoxelData.worldSizeInChunks*VoxelData.chunkWidth)/2);
         this._phi = 0;
         this._theta = 0;
+
+        // GameEvent.bind("PlayerMovedEvent", this.update)
+        console.log()
     }
 
     update() {
+        GameEvent.call("PlayerMovedEvent", 50, {"position": this.position})
+
         this._updateRotation();
         this._updateCamera();
         this._controller.update();

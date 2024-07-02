@@ -6,7 +6,7 @@ import VoxelData from './data';
 import MathUtils from '../helpers/math.js';
 import Noise from '../helpers/noise.js';
 import { DefaultBiome } from './biome';
-
+import axios from "axios";
 
 export default class World {
     static blocktypes = [
@@ -42,9 +42,15 @@ export default class World {
         this.chunkUUID = {};
 
         this.biome = new DefaultBiome();
-
-        this.seed = Math.random()*100000;
+        this.seed = this.get_seed();
+        this.seed = this.seed.next().value;
+        console.log(this.seed);
         this.noise = new Noise(this.seed);
+
+    }
+
+    *get_seed() {
+        return yield axios.post('/get_seed');
     }
 
     CheckVoxel(x, y, z) {

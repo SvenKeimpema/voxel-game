@@ -11,16 +11,14 @@ export default class Entity {
         this.scene = scene;
         this.pos = pos;
 
-        this.geo = new THREE.SphereGeometry(1, 32, 16);
+        this.geo = new THREE.SphereGeometry(0.5, 32, 16);
         this.mat = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
         this.sphere = new THREE.Mesh(this.geo, this.mat);
-        console.log("POSITION: ")
-        console.log({...this.pos})
         this.sphere.position.set(this.pos.x, this.pos.y, this.pos.z);
         this.scene.add(this.sphere);
     }
 
     updatePosition(pos) {
-        this.sphere.position.set(this.pos.x, this.pos.y, this.pos.z);
+        this.sphere.position.set(pos.x, pos.y, pos.z);
     }
 }

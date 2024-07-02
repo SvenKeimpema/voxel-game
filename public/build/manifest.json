@@ -4,7 +4,7 @@
     "name": "axios"
   },
   "resources/css/app.css": {
-    "file": "assets/app-CfebjpIM.css",
+    "file": "assets/app-CTRfz3bQ.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
@@ -33,7 +33,7 @@
     ]
   },
   "resources/js/voxel_game/main.js": {
-    "file": "assets/main-DC4VPOg3.js",
+    "file": "assets/main-UpAR_9Ij.js",
     "name": "main",
     "src": "resources/js/voxel_game/main.js",
     "isEntry": true,
