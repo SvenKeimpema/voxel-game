@@ -22,10 +22,12 @@
             }
 
             $server_uuid = Session::get('game_code');
+            $world_seed = WorldController::get_seed();
 
             return view("game",
                 [
-                    "uuid" => $server_uuid
+                    "uuid" => $server_uuid,
+                    "world_seed" => $world_seed
                 ]);
         }
     }

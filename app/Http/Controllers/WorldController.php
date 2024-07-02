@@ -13,7 +13,7 @@
          * gets the seed of the world, if the seed does NOT exist we create a fresh seed.
          * @return int
          */
-        public function get_seed() {
+        public static function get_seed() {
             $server_uuid = Session::get("game_code");
             $seed = World::where("server_uuid", $server_uuid)->get();
             if($seed->count() == 0) {

@@ -15,5 +15,6 @@
     <a id="pos"></a>
 </div>
 <p id="world_uuid" hidden>{{$uuid}}</p>
+<p id="seed" hidden>{{$world_seed}}</p>
 </body>
 </html>

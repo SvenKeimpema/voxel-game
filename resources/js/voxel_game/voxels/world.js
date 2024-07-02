@@ -42,15 +42,9 @@ export default class World {
         this.chunkUUID = {};
 
         this.biome = new DefaultBiome();
-        this.seed = this.get_seed();
-        this.seed = this.seed.next().value;
-        console.log(this.seed);
+        this.seed = Number(document.getElementById("seed").innerHTML);
         this.noise = new Noise(this.seed);
 
-    }
-
-    *get_seed() {
-        return yield axios.post('/get_seed');
     }
 
     CheckVoxel(x, y, z) {
